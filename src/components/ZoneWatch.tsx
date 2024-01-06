@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import moment from 'moment-timezone';
 import Clock from './Clock';
 import { ClockData } from './types';
 import 'bootstrap/dist/css/bootstrap.min.css';
