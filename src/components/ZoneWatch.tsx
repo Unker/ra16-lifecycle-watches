@@ -15,7 +15,6 @@ const App: React.FC = () => {
       id: Date.now().toString(),
       name,
       timezone,
-      offset: moment().tz(timezone).utcOffset(),
     };
 
     setClocks((prevClocks) => [...prevClocks, newClock]);

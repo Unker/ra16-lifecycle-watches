@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import moment from 'moment-timezone';
 import { ClockProps } from './types';
 
-const Clock: React.FC<ClockProps> = ({ id, name, timezone, offset, onDelete }) => {
+const Clock: React.FC<ClockProps> = ({ id, name, timezone, onDelete }) => {
   const [time, setTime] = useState<string>(getCurrentTime());
   const [secondsAngle, setSecondsAngle] = useState<number>(0);
   const [minutesAngle, setMinutesAngle] = useState<number>(0);
@@ -10,7 +10,7 @@ const Clock: React.FC<ClockProps> = ({ id, name, timezone, offset, onDelete }) =
 
   useEffect(() => {
     const intervalSecId = setInterval(() => {
-      const now = moment().utcOffset(offset);
+      const now = moment().utcOffset(Number(timezone)*60);
       const seconds = now.seconds();
       const minutes = now.minutes();
       const hours = now.hours();
@@ -32,7 +32,7 @@ const Clock: React.FC<ClockProps> = ({ id, name, timezone, offset, onDelete }) =
   }, []);
 
   function getCurrentTime() {
-    const currentTime = moment().utcOffset(offset).format('HH:mm:ss');
+    const currentTime = moment().utcOffset(Number(timezone)*60).format('HH:mm:ss');
     return `${name} (${timezone}): ${currentTime}`;
   }
 
