@@ -50,7 +50,7 @@ const App: React.FC = () => {
         </label>
         <button className="btn btn-warning" onClick={addClock}>Добавить</button>
       </div>
-      <div className='clock-container'>
+      <div className='clocks-container'>
         {clocks.map((clock) => (
           <Clock key={clock.id} {...clock} onDelete={removeClock} />
         ))}

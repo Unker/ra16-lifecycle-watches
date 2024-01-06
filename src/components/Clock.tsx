@@ -4,9 +4,25 @@ import { ClockProps } from './types';
 
 const Clock: React.FC<ClockProps> = ({ id, name, timezone, offset, onDelete }) => {
   const [time, setTime] = useState<string>(getCurrentTime());
+  const [secondsAngle, setSecondsAngle] = useState<number>(0);
+  const [minutesAngle, setMinutesAngle] = useState<number>(0);
+  const [hoursAngle, setHoursAngle] = useState<number>(0);
 
   useEffect(() => {
     const intervalSecId = setInterval(() => {
+      const now = moment().utcOffset(offset);
+      const seconds = now.seconds();
+      const minutes = now.minutes();
+      const hours = now.hours();
+
+      const secondsAngle = (seconds / 60) * 360;
+      const minutesAngle = ((minutes + seconds / 60) / 60) * 360;
+      const hoursAngle = ((hours + minutes / 60) / 12) * 360;
+
+      setSecondsAngle(secondsAngle);
+      setMinutesAngle(minutesAngle);
+      setHoursAngle(hoursAngle);
+      
       setTime(getCurrentTime());
     }, 1000);
 
@@ -21,9 +37,14 @@ const Clock: React.FC<ClockProps> = ({ id, name, timezone, offset, onDelete }) =
   }
 
   return (
-    <div>
+    <div className="clock-container">
+      <div className="clock">
+        <div className="hour hand" style={{ transform: `rotate(${hoursAngle}deg)` }}></div>
+        <div className="minute hand" style={{ transform: `rotate(${minutesAngle}deg)` }}></div>
+        <div className="second hand" style={{ transform: `rotate(${secondsAngle}deg)` }}></div>
+      </div>
       <div>{time}</div>
-      <button onClick={() => onDelete(id)}>Remove</button>
+      <button className='remove-button' onClick={() => onDelete(id)}>⨯</button>  
     </div>
   );
 };
